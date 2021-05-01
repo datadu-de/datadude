@@ -171,8 +171,6 @@ window.onload = wrap_img;
     <span class="s2">&quot;Mallorca&quot;</span><span class="p">:</span>  <span class="p">(</span><span class="mf">39.55</span><span class="p">,</span> <span class="mf">2.7333</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="n">climate</span> <span class="o">=</span> <span class="kc">None</span>
-
 <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://api.meteostat.net/v2/point/climate&quot;</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;x-api-key&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;meteostat_api_key&quot;</span><span class="p">)</span>
@@ -215,41 +213,137 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;tsun&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;2021-04-29-a-new-home.csv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s2">&quot;month&quot;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">[[</span><span class="s2">&quot;tsun&quot;</span><span class="p">]],</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="s2">&quot;month&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">filt</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;Mallorca&quot;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">filt</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">base_chart</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
 <span class="n">label</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">selection_single</span><span class="p">(</span>
-    <span class="n">encodings</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="c1"># limit selection to x-axis value</span>
-    <span class="n">on</span><span class="o">=</span><span class="s1">&#39;mouseover&#39;</span><span class="p">,</span>  <span class="c1"># select on mouseover events</span>
+    <span class="n">encodings</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="c1"># limit selection to x-axis value</span>
+    <span class="n">on</span><span class="o">=</span><span class="s2">&quot;mouseover&quot;</span><span class="p">,</span>  <span class="c1"># select on mouseover events</span>
     <span class="n">nearest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>    <span class="c1"># select data point nearest the cursor</span>
-    <span class="n">empty</span><span class="o">=</span><span class="s1">&#39;none&#39;</span>     <span class="c1"># empty selection includes no data points</span>
+    <span class="n">empty</span><span class="o">=</span><span class="s2">&quot;none&quot;</span>     <span class="c1"># empty selection includes no data points</span>
 <span class="p">)</span>
 
-<span class="n">alt</span><span class="o">.</span><span class="n">layer</span><span class="p">(</span>
-    <span class="n">base_chart</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
-        <span class="n">x</span><span class="o">=</span><span class="s2">&quot;month:O&quot;</span><span class="p">,</span>
-        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;tmax&quot;</span><span class="p">,</span>
-        <span class="n">y2</span><span class="o">=</span><span class="s2">&quot;tmin&quot;</span><span class="p">,</span>
-        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;location&quot;</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">mark_area</span><span class="p">(</span><span class="n">fillOpacity</span><span class="o">=.</span><span class="mi">25</span><span class="p">)</span> <span class="p">,</span>
-
-    <span class="n">base_chart</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">base_chart</span><span class="o">.</span><span class="n">mark_line</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
         <span class="n">x</span><span class="o">=</span><span class="s2">&quot;month:O&quot;</span><span class="p">,</span>
         <span class="n">y</span><span class="o">=</span><span class="s2">&quot;tavg&quot;</span><span class="p">,</span>
         <span class="n">color</span><span class="o">=</span><span class="s2">&quot;location&quot;</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">mark_line</span><span class="p">(),</span>
+    <span class="p">)</span>
 
-        <span class="c1"># add a rule mark to serve as a guide line</span>
-    <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">()</span><span class="o">.</span><span class="n">mark_rule</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#aaa&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
-            <span class="n">x</span><span class="o">=</span><span class="s1">&#39;month:O&#39;</span>
+<span class="n">alt</span><span class="o">.</span><span class="n">vconcat</span><span class="p">(</span>
+
+    <span class="n">base_chart</span><span class="o">.</span><span class="n">mark_point</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="s2">&quot;month:O&quot;</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="s2">&quot;tsun&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="s2">&quot;location&quot;</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Daily Sunshine Hours&quot;</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="mi">200</span>
+    <span class="p">),</span>
+
+    <span class="n">alt</span><span class="o">.</span><span class="n">layer</span><span class="p">(</span>
+        <span class="n">base</span><span class="p">,</span>
+        
+        <span class="n">base_chart</span><span class="o">.</span><span class="n">mark_area</span><span class="p">(</span><span class="n">fillOpacity</span><span class="o">=.</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="s2">&quot;month:O&quot;</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="s2">&quot;tmax&quot;</span><span class="p">,</span>
+            <span class="n">y2</span><span class="o">=</span><span class="s2">&quot;tmin&quot;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;location&quot;</span>
+        <span class="p">),</span>
+
+            <span class="c1"># add a rule mark to serve as a guide line</span>
+        <span class="n">base_chart</span><span class="o">.</span><span class="n">mark_rule</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;#aaa&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+                <span class="n">x</span><span class="o">=</span><span class="s2">&quot;month:O&quot;</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">transform_filter</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
+
+        <span class="c1"># add circle marks for selected time points, hide unselected points</span>
+        <span class="n">base</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+                <span class="n">opacity</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">alt</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">alt</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">add_selection</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
+
+        <span class="c1"># add white stroked text to provide a legible background for labels</span>
+        <span class="n">base</span><span class="o">.</span><span class="n">mark_text</span><span class="p">(</span><span class="n">align</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">dy</span><span class="o">=-</span><span class="mi">5</span><span class="p">,</span> <span class="n">stroke</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">strokeWidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+            <span class="n">text</span><span class="o">=</span><span class="s2">&quot;tavg:Q&quot;</span>
         <span class="p">)</span><span class="o">.</span><span class="n">transform_filter</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
 
-    <span class="c1"># add circle marks for selected time points, hide unselected points</span>
-    <span class="n">base_chart</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
-            <span class="n">opacity</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">condition</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">alt</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">alt</span><span class="o">.</span><span class="n">value</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">add_selection</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
-<span class="p">)</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span>
-    <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
-    <span class="n">height</span><span class="o">=</span><span class="mi">400</span>
+        <span class="c1"># add text labels for stock prices</span>
+        <span class="n">base</span><span class="o">.</span><span class="n">mark_text</span><span class="p">(</span><span class="n">align</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">dy</span><span class="o">=-</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+            <span class="n">text</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="s2">&quot;tavg:Q&quot;</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">transform_filter</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Historical Avg/Min/Max Temperatures&quot;</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
+        <span class="n">height</span><span class="o">=</span><span class="mi">400</span>
+    <span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
 
@@ -265,12 +359,12 @@ window.onload = wrap_img;
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 
-<div id="altair-viz-e196285ec2af4f44b8ea6269ec7d817c"></div>
+<div id="altair-viz-b04af203d40c40f6a64b5ceaf5632a3c"></div>
 <script type="text/javascript">
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-e196285ec2af4f44b8ea6269ec7d817c") {
-      outputDiv = document.getElementById("altair-viz-e196285ec2af4f44b8ea6269ec7d817c");
+    if (outputDiv.id !== "altair-viz-b04af203d40c40f6a64b5ceaf5632a3c") {
+      outputDiv = document.getElementById("altair-viz-b04af203d40c40f6a64b5ceaf5632a3c");
     }
     const paths = {
       "vega": "https://cdn.jsdelivr.net/npm//vega@5?noext",
@@ -312,7 +406,7 @@ window.onload = wrap_img;
         .catch(showError)
         .then(() => displayChart(vegaEmbed));
     }
-  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "layer": [{"data": {"name": "data-894c72e6b4280a3957a29910620beb0d"}, "mark": {"type": "area", "fillOpacity": 0.25}, "encoding": {"color": {"type": "nominal", "field": "location"}, "x": {"type": "ordinal", "field": "month"}, "y": {"type": "quantitative", "field": "tmax"}, "y2": {"field": "tmin"}}}, {"data": {"name": "data-894c72e6b4280a3957a29910620beb0d"}, "mark": "line", "encoding": {"color": {"type": "nominal", "field": "location"}, "x": {"type": "ordinal", "field": "month"}, "y": {"type": "quantitative", "field": "tavg"}}}, {"mark": {"type": "rule", "color": "#aaa"}, "encoding": {"x": {"type": "ordinal", "field": "month"}}, "transform": [{"filter": {"selection": "selector001"}}]}, {"data": {"name": "data-894c72e6b4280a3957a29910620beb0d"}, "mark": "circle", "encoding": {"opacity": {"condition": {"value": 1, "selection": "selector001"}, "value": 0}}, "selection": {"selector001": {"type": "single", "encodings": ["x"], "on": "mouseover", "nearest": true, "empty": "none"}}}], "height": 400, "width": 800, "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json", "datasets": {"data-894c72e6b4280a3957a29910620beb0d": [{"month": 1, "tavg": 1.1, "tmin": -1.5, "tmax": 3.7, "prcp": 50, "pres": null, "tsun": null, "location": "Karlsruhe"}, {"month": 2, "tavg": 2.6, "tmin": -0.6, "tmax": 5.8, "prcp": 51, "pres": null, "tsun": null, "location": "Karlsruhe"}, {"month": 3, "tavg": 6.3, "tmin": 1.8, "tmax": 10.7, "prcp": 45, "pres": null, "tsun": null, "location": "Karlsruhe"}, {"month": 4, "tavg": 10.2, "tmin": 5.0, "tmax": 15.3, "prcp": 56, "pres": null, "tsun": null, "location": "Karlsruhe"}, {"month": 5, "tavg": 14.4, "tmin": 8.9, "tmax": 19.9, "prcp": 72, "pres": null, "tsun": null, "location": "Karlsruhe"}, {"month": 6, "tavg": 17.6, "tmin": 12.2, "tmax": 23.0, "prcp": 84, "pres": null, "tsun": null, "location": "Karlsruhe"}, {"month": 7, "tavg": 19.7, "tmin": 14.1, "tmax": 25.3, "prcp": 69, "pres": null, "tsun": null, "location": "Karlsruhe"}, {"month": 8, "tavg": 19.2, "tmin": 13.7, "tmax": 24.7, "prcp": 72, "pres": null, "tsun": null, "location": "Karlsruhe"}, {"month": 9, "tavg": 16.0, "tmin": 10.6, "tmax": 21.4, "prcp": 57, "pres": null, "tsun": null, "location": "Karlsruhe"}, {"month": 10, "tavg": 10.9, "tmin": 6.6, "tmax": 15.2, "prcp": 51, "pres": null, "tsun": null, "location": "Karlsruhe"}, {"month": 11, "tavg": 5.5, "tmin": 2.4, "tmax": 8.5, "prcp": 63, "pres": null, "tsun": null, "location": "Karlsruhe"}, {"month": 12, "tavg": 2.4, "tmin": -0.2, "tmax": 4.9, "prcp": 58, "pres": null, "tsun": null, "location": "Karlsruhe"}, {"month": 1, "tavg": 16.9, "tmin": 13.8, "tmax": 19.9, "prcp": 60, "pres": null, "tsun": null, "location": "Tenerife"}, {"month": 2, "tavg": 17.1, "tmin": 14.0, "tmax": 20.1, "prcp": 48, "pres": null, "tsun": null, "location": "Tenerife"}, {"month": 3, "tavg": 17.9, "tmin": 14.5, "tmax": 21.3, "prcp": 43, "pres": null, "tsun": null, "location": "Tenerife"}, {"month": 4, "tavg": 18.6, "tmin": 15.0, "tmax": 22.2, "prcp": 22, "pres": null, "tsun": null, "location": "Tenerife"}, {"month": 5, "tavg": 19.7, "tmin": 16.0, "tmax": 23.3, "prcp": 10, "pres": null, "tsun": null, "location": "Tenerife"}, {"month": 6, "tavg": 21.6, "tmin": 17.9, "tmax": 25.3, "prcp": 4, "pres": null, "tsun": null, "location": "Tenerife"}, {"month": 7, "tavg": 23.7, "tmin": 19.7, "tmax": 27.7, "prcp": 1, "pres": null, "tsun": null, "location": "Tenerife"}, {"month": 8, "tavg": 24.6, "tmin": 20.2, "tmax": 28.9, "prcp": 1, "pres": null, "tsun": null, "location": "Tenerife"}, {"month": 9, "tavg": 24.0, "tmin": 20.4, "tmax": 27.5, "prcp": 7, "pres": null, "tsun": null, "location": "Tenerife"}, {"month": 10, "tavg": 22.4, "tmin": 18.9, "tmax": 25.9, "prcp": 39, "pres": null, "tsun": null, "location": "Tenerife"}, {"month": 11, "tavg": 19.9, "tmin": 16.9, "tmax": 22.9, "prcp": 70, "pres": null, "tsun": null, "location": "Tenerife"}, {"month": 12, "tavg": 18.0, "tmin": 14.9, "tmax": 21.0, "prcp": 75, "pres": null, "tsun": null, "location": "Tenerife"}, {"month": 1, "tavg": 11.5, "tmin": 8.4, "tmax": 14.6, "prcp": 106, "pres": null, "tsun": null, "location": "Lisbon"}, {"month": 2, "tavg": 12.3, "tmin": 9.0, "tmax": 15.5, "prcp": 98, "pres": null, "tsun": null, "location": "Lisbon"}, {"month": 3, "tavg": 13.7, "tmin": 9.9, "tmax": 17.4, "prcp": 77, "pres": null, "tsun": null, "location": "Lisbon"}, {"month": 4, "tavg": 15.3, "tmin": 11.3, "tmax": 19.2, "prcp": 56, "pres": null, "tsun": null, "location": "Lisbon"}, {"month": 5, "tavg": 17.5, "tmin": 13.1, "tmax": 21.9, "prcp": 43, "pres": null, "tsun": null, "location": "Lisbon"}, {"month": 6, "tavg": 20.1, "tmin": 15.5, "tmax": 24.7, "prcp": 21, "pres": null, "tsun": null, "location": "Lisbon"}, {"month": 7, "tavg": 22.4, "tmin": 17.3, "tmax": 27.5, "prcp": 4, "pres": null, "tsun": null, "location": "Lisbon"}, {"month": 8, "tavg": 22.8, "tmin": 17.6, "tmax": 27.9, "prcp": 5, "pres": null, "tsun": null, "location": "Lisbon"}, {"month": 9, "tavg": 21.6, "tmin": 16.8, "tmax": 26.3, "prcp": 24, "pres": null, "tsun": null, "location": "Lisbon"}, {"month": 10, "tavg": 18.5, "tmin": 14.6, "tmax": 22.4, "prcp": 74, "pres": null, "tsun": null, "location": "Lisbon"}, {"month": 11, "tavg": 14.5, "tmin": 11.2, "tmax": 17.7, "prcp": 110, "pres": null, "tsun": null, "location": "Lisbon"}, {"month": 12, "tavg": 12.0, "tmin": 9.1, "tmax": 14.8, "prcp": 109, "pres": null, "tsun": null, "location": "Lisbon"}, {"month": 1, "tavg": 10.3, "tmin": 6.5, "tmax": 14.0, "prcp": 41, "pres": null, "tsun": null, "location": "Mallorca"}, {"month": 2, "tavg": 10.7, "tmin": 6.6, "tmax": 14.7, "prcp": 36, "pres": null, "tsun": null, "location": "Mallorca"}, {"month": 3, "tavg": 12.3, "tmin": 8.1, "tmax": 16.4, "prcp": 33, "pres": null, "tsun": null, "location": "Mallorca"}, {"month": 4, "tavg": 14.5, "tmin": 10.4, "tmax": 18.6, "prcp": 38, "pres": null, "tsun": null, "location": "Mallorca"}, {"month": 5, "tavg": 17.5, "tmin": 13.2, "tmax": 21.8, "prcp": 31, "pres": null, "tsun": null, "location": "Mallorca"}, {"month": 6, "tavg": 21.5, "tmin": 17.0, "tmax": 25.9, "prcp": 17, "pres": null, "tsun": null, "location": "Mallorca"}, {"month": 7, "tavg": 24.3, "tmin": 19.7, "tmax": 28.8, "prcp": 6, "pres": null, "tsun": null, "location": "Mallorca"}, {"month": 8, "tavg": 24.6, "tmin": 20.3, "tmax": 28.8, "prcp": 21, "pres": null, "tsun": null, "location": "Mallorca"}, {"month": 9, "tavg": 22.6, "tmin": 18.3, "tmax": 26.8, "prcp": 52, "pres": null, "tsun": null, "location": "Mallorca"}, {"month": 10, "tavg": 18.3, "tmin": 14.2, "tmax": 22.3, "prcp": 81, "pres": null, "tsun": null, "location": "Mallorca"}, {"month": 11, "tavg": 14.3, "tmin": 10.5, "tmax": 18.0, "prcp": 55, "pres": null, "tsun": null, "location": "Mallorca"}, {"month": 12, "tavg": 11.5, "tmin": 7.9, "tmax": 15.0, "prcp": 51, "pres": null, "tsun": null, "location": "Mallorca"}]}}, {"mode": "vega-lite"});
+  })({"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "vconcat": [{"mark": "point", "encoding": {"color": {"type": "nominal", "field": "location"}, "x": {"type": "ordinal", "field": "month"}, "y": {"type": "quantitative", "field": "tsun"}}, "height": 200, "title": "Daily Sunshine Hours", "width": 800}, {"layer": [{"mark": "line", "encoding": {"color": {"type": "nominal", "field": "location"}, "x": {"type": "ordinal", "field": "month"}, "y": {"type": "quantitative", "field": "tavg"}}}, {"mark": {"type": "area", "fillOpacity": 0.15}, "encoding": {"color": {"type": "nominal", "field": "location"}, "x": {"type": "ordinal", "field": "month"}, "y": {"type": "quantitative", "field": "tmax"}, "y2": {"field": "tmin"}}}, {"mark": {"type": "rule", "color": "#aaa"}, "encoding": {"x": {"type": "ordinal", "field": "month"}}, "transform": [{"filter": {"selection": "selector024"}}]}, {"mark": "circle", "encoding": {"color": {"type": "nominal", "field": "location"}, "opacity": {"condition": {"value": 1, "selection": "selector024"}, "value": 0}, "x": {"type": "ordinal", "field": "month"}, "y": {"type": "quantitative", "field": "tavg"}}, "selection": {"selector024": {"type": "single", "encodings": ["x"], "on": "mouseover", "nearest": true, "empty": "none"}}}, {"mark": {"type": "text", "align": "left", "dx": 5, "dy": -5, "stroke": "white", "strokeWidth": 2}, "encoding": {"color": {"type": "nominal", "field": "location"}, "text": {"type": "quantitative", "field": "tavg"}, "x": {"type": "ordinal", "field": "month"}, "y": {"type": "quantitative", "field": "tavg"}}, "transform": [{"filter": {"selection": "selector024"}}]}, {"mark": {"type": "text", "align": "left", "dx": 5, "dy": -5}, "encoding": {"color": {"type": "nominal", "field": "location"}, "text": {"type": "quantitative", "field": "tavg"}, "x": {"type": "ordinal", "field": "month"}, "y": {"type": "quantitative", "field": "tavg"}}, "transform": [{"filter": {"selection": "selector024"}}]}], "height": 400, "title": "Historical Avg/Min/Max Temperatures", "width": 800}], "data": {"name": "data-f0c631256579d50c2467b7ed06504857"}, "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json", "datasets": {"data-f0c631256579d50c2467b7ed06504857": [{"index": 0, "month": 1, "tavg": 1.1, "tmin": -1.5, "tmax": 3.7, "prcp": 50, "pres": null, "location": "Karlsruhe", "tsun": 1.5}, {"index": 1, "month": 2, "tavg": 2.6, "tmin": -0.6, "tmax": 5.8, "prcp": 51, "pres": null, "location": "Karlsruhe", "tsun": 2.7}, {"index": 2, "month": 3, "tavg": 6.3, "tmin": 1.8, "tmax": 10.7, "prcp": 45, "pres": null, "location": "Karlsruhe", "tsun": 3.9}, {"index": 3, "month": 4, "tavg": 10.2, "tmin": 5.0, "tmax": 15.3, "prcp": 56, "pres": null, "location": "Karlsruhe", "tsun": 5.4}, {"index": 4, "month": 5, "tavg": 14.4, "tmin": 8.9, "tmax": 19.9, "prcp": 72, "pres": null, "location": "Karlsruhe", "tsun": 6.8}, {"index": 5, "month": 6, "tavg": 17.6, "tmin": 12.2, "tmax": 23.0, "prcp": 84, "pres": null, "location": "Karlsruhe", "tsun": 7.3}, {"index": 6, "month": 7, "tavg": 19.7, "tmin": 14.1, "tmax": 25.3, "prcp": 69, "pres": null, "location": "Karlsruhe", "tsun": 7.9}, {"index": 7, "month": 8, "tavg": 19.2, "tmin": 13.7, "tmax": 24.7, "prcp": 72, "pres": null, "location": "Karlsruhe", "tsun": 7.1}, {"index": 8, "month": 9, "tavg": 16.0, "tmin": 10.6, "tmax": 21.4, "prcp": 57, "pres": null, "location": "Karlsruhe", "tsun": 5.7}, {"index": 9, "month": 10, "tavg": 10.9, "tmin": 6.6, "tmax": 15.2, "prcp": 51, "pres": null, "location": "Karlsruhe", "tsun": 3.6}, {"index": 10, "month": 11, "tavg": 5.5, "tmin": 2.4, "tmax": 8.5, "prcp": 63, "pres": null, "location": "Karlsruhe", "tsun": 2.0}, {"index": 11, "month": 12, "tavg": 2.4, "tmin": -0.2, "tmax": 4.9, "prcp": 58, "pres": null, "location": "Karlsruhe", "tsun": 1.5}, {"index": 0, "month": 1, "tavg": 11.5, "tmin": 8.4, "tmax": 14.6, "prcp": 106, "pres": null, "location": "Lisbon", "tsun": 5.0}, {"index": 1, "month": 2, "tavg": 12.3, "tmin": 9.0, "tmax": 15.5, "prcp": 98, "pres": null, "location": "Lisbon", "tsun": 7.0}, {"index": 2, "month": 3, "tavg": 13.7, "tmin": 9.9, "tmax": 17.4, "prcp": 77, "pres": null, "location": "Lisbon", "tsun": 7.0}, {"index": 3, "month": 4, "tavg": 15.3, "tmin": 11.3, "tmax": 19.2, "prcp": 56, "pres": null, "location": "Lisbon", "tsun": 9.0}, {"index": 4, "month": 5, "tavg": 17.5, "tmin": 13.1, "tmax": 21.9, "prcp": 43, "pres": null, "location": "Lisbon", "tsun": 10.0}, {"index": 5, "month": 6, "tavg": 20.1, "tmin": 15.5, "tmax": 24.7, "prcp": 21, "pres": null, "location": "Lisbon", "tsun": 11.0}, {"index": 6, "month": 7, "tavg": 22.4, "tmin": 17.3, "tmax": 27.5, "prcp": 4, "pres": null, "location": "Lisbon", "tsun": 12.0}, {"index": 7, "month": 8, "tavg": 22.8, "tmin": 17.6, "tmax": 27.9, "prcp": 5, "pres": null, "location": "Lisbon", "tsun": 12.0}, {"index": 8, "month": 9, "tavg": 21.6, "tmin": 16.8, "tmax": 26.3, "prcp": 24, "pres": null, "location": "Lisbon", "tsun": 9.0}, {"index": 9, "month": 10, "tavg": 18.5, "tmin": 14.6, "tmax": 22.4, "prcp": 74, "pres": null, "location": "Lisbon", "tsun": 7.0}, {"index": 10, "month": 11, "tavg": 14.5, "tmin": 11.2, "tmax": 17.7, "prcp": 110, "pres": null, "location": "Lisbon", "tsun": 6.0}, {"index": 11, "month": 12, "tavg": 12.0, "tmin": 9.1, "tmax": 14.8, "prcp": 109, "pres": null, "location": "Lisbon", "tsun": 5.0}, {"index": 0, "month": 1, "tavg": 16.9, "tmin": 13.8, "tmax": 19.9, "prcp": 60, "pres": null, "location": "Tenerife", "tsun": 6.0}, {"index": 1, "month": 2, "tavg": 17.1, "tmin": 14.0, "tmax": 20.1, "prcp": 48, "pres": null, "location": "Tenerife", "tsun": 7.0}, {"index": 2, "month": 3, "tavg": 17.9, "tmin": 14.5, "tmax": 21.3, "prcp": 43, "pres": null, "location": "Tenerife", "tsun": 7.0}, {"index": 3, "month": 4, "tavg": 18.6, "tmin": 15.0, "tmax": 22.2, "prcp": 22, "pres": null, "location": "Tenerife", "tsun": 8.0}, {"index": 4, "month": 5, "tavg": 19.7, "tmin": 16.0, "tmax": 23.3, "prcp": 10, "pres": null, "location": "Tenerife", "tsun": 9.0}, {"index": 5, "month": 6, "tavg": 21.6, "tmin": 17.9, "tmax": 25.3, "prcp": 4, "pres": null, "location": "Tenerife", "tsun": 10.0}, {"index": 6, "month": 7, "tavg": 23.7, "tmin": 19.7, "tmax": 27.7, "prcp": 1, "pres": null, "location": "Tenerife", "tsun": 11.0}, {"index": 7, "month": 8, "tavg": 24.6, "tmin": 20.2, "tmax": 28.9, "prcp": 1, "pres": null, "location": "Tenerife", "tsun": 11.0}, {"index": 8, "month": 9, "tavg": 24.0, "tmin": 20.4, "tmax": 27.5, "prcp": 7, "pres": null, "location": "Tenerife", "tsun": 8.0}, {"index": 9, "month": 10, "tavg": 22.4, "tmin": 18.9, "tmax": 25.9, "prcp": 39, "pres": null, "location": "Tenerife", "tsun": 7.0}, {"index": 10, "month": 11, "tavg": 19.9, "tmin": 16.9, "tmax": 22.9, "prcp": 70, "pres": null, "location": "Tenerife", "tsun": 6.0}, {"index": 11, "month": 12, "tavg": 18.0, "tmin": 14.9, "tmax": 21.0, "prcp": 75, "pres": null, "location": "Tenerife", "tsun": 5.0}]}}, {"mode": "vega-lite"});
 </script>
 </div>
 
