@@ -1,3 +1,7 @@
-pandas
-pyspark
+altair
+cartopy
+matplotlib
 numpy
+pandas
+scipy
+jupyterlab
