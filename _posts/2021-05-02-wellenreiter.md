@@ -3,6 +3,7 @@ title: "Wellenreiter"
 description: "collaborative and interactive decision making"
 categories: [python, streamlit]
 layout: post
+image: images/2021-05-01-wellenreiter.png
 toc: false
 hide: false
 search_exclude: false
