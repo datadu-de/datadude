@@ -1,6 +1,5 @@
 {
   "python.venvPath": ".\\venv",
-  "python.pythonPath": ".\\venv\\Scripts\\python.exe",
   "python.linting.flake8Enabled": true,
   "jupyter.enableCellCodeLens": true
 }
