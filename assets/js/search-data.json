@@ -13,10 +13,10 @@
   
     
         ,"post1": {
-            "title": "Pseudonymization quick demo",
-            "content": "from passlib.hash import sha256_crypt from tabulate import tabulate personal_data = &#39;hansi@aol.com&#39; code = &#39;123&#39; pseudo_data = sha256_crypt.using(salt=code).hash(personal_data) # &lt;-- ONE way hashing _ = [[&quot;from personal_data:&quot;, personal_data], [&quot;to pseudo data:&quot;, pseudo_data]] print(tabulate(_)) . - - from personal_data: hansi@aol.com to pseudo data: $5$rounds=535000$123$OstATxBl/UYb7DWVRBTq7WJjUAtSbKJxn4mky6NGh55 - - .",
-            "url": "https://datadu.de/python/2021/04/30/pseudonymization-quickdemo.html",
-            "relUrl": "/python/2021/04/30/pseudonymization-quickdemo.html",
+            "title": "Pseudonymization mini demo",
+            "content": "from passlib.hash import sha256_crypt personal_data = &#39;hansi@aol.com&#39; code = &#39;123&#39; pseudo_data = sha256_crypt.using(salt=code).hash(personal_data) # &lt;-- ONE way hashing print(&quot;from personal_data:&quot;, personal_data) print(&quot;to pseudo data: &quot;, pseudo_data) . from personal_data: hansi@aol.com to pseudo data: $5$rounds=535000$123$OstATxBl/UYb7DWVRBTq7WJjUAtSbKJxn4mky6NGh55 .",
+            "url": "https://datadu.de/python/2021/04/30/pseudonymization-mini-demo.html",
+            "relUrl": "/python/2021/04/30/pseudonymization-mini-demo.html",
             "date": " • Apr 30, 2021"
         }
         
